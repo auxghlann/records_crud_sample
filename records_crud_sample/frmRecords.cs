@@ -21,8 +21,13 @@ namespace records_crud_sample
             InitializeComponent();
         }
 
+        // Initializion and Declaration
         Database _db = new Database();
+        frmAdd frmAdd;
 
+
+
+        // WinForm Functons
 
         private void btnView_Click(object sender, EventArgs e)
         {
@@ -46,18 +51,20 @@ namespace records_crud_sample
         {
             DataTable dt = new DataTable();
 
-            string query = "select * from records where (first_name like ? or last_name like ?)";
-
             // Open connection here
 
             using (_db.Connection)
             {
+                _db.Connection.Open();
+
+                string query = "select * from records where (first_name like ? or last_name like ?)";
+
                 OdbcCommand command = new OdbcCommand(query, _db.Connection);
                 command.Parameters.AddWithValue("?", txtSearch.Text + "%");
                 command.Parameters.AddWithValue("?", txtSearch.Text + "%");
                 //lblQuery.Text = command.CommandText;
 
-                _db.Connection.Open();
+                
                 using (OdbcDataAdapter adapter = new OdbcDataAdapter(command)) // Use OdbcDataAdapter if Odbc driver
                 {
                     adapter.Fill(dt);
@@ -65,6 +72,12 @@ namespace records_crud_sample
             }
 
             grdData.DataSource = dt;
+        }
+
+        private void btnAdd_Click(object sender, EventArgs e)
+        {
+            frmAdd = new frmAdd(_db);
+            frmAdd.ShowDialog();
         }
     }
 }

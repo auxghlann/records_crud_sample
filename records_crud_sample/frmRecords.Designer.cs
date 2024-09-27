@@ -32,7 +32,9 @@
             this.btnView = new System.Windows.Forms.Button();
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.lblQuery = new System.Windows.Forms.Label();
+            this.btnAdd = new System.Windows.Forms.Button();
+            this.btnUpdate = new System.Windows.Forms.Button();
+            this.btnDel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grdData)).BeginInit();
             this.SuspendLayout();
             // 
@@ -41,6 +43,7 @@
             this.grdData.AllowUserToAddRows = false;
             this.grdData.AllowUserToDeleteRows = false;
             this.grdData.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.grdData.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
             this.grdData.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grdData.Location = new System.Drawing.Point(46, 51);
             this.grdData.Name = "grdData";
@@ -60,7 +63,7 @@
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(538, 17);
+            this.txtSearch.Location = new System.Drawing.Point(627, 22);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(133, 20);
             this.txtSearch.TabIndex = 2;
@@ -69,29 +72,52 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(491, 22);
+            this.label1.Location = new System.Drawing.Point(580, 27);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 3;
             this.label1.Text = "Search";
             // 
-            // lblQuery
+            // btnAdd
             // 
-            this.lblQuery.AutoSize = true;
-            this.lblQuery.Location = new System.Drawing.Point(290, 366);
-            this.lblQuery.Name = "lblQuery";
-            this.lblQuery.Size = new System.Drawing.Size(35, 13);
-            this.lblQuery.TabIndex = 4;
-            this.lblQuery.Text = "label2";
+            this.btnAdd.Location = new System.Drawing.Point(198, 366);
+            this.btnAdd.Name = "btnAdd";
+            this.btnAdd.Size = new System.Drawing.Size(87, 37);
+            this.btnAdd.TabIndex = 1;
+            this.btnAdd.Text = "Add";
+            this.btnAdd.UseVisualStyleBackColor = true;
+            this.btnAdd.Click += new System.EventHandler(this.btnAdd_Click);
+            // 
+            // btnUpdate
+            // 
+            this.btnUpdate.Location = new System.Drawing.Point(304, 366);
+            this.btnUpdate.Name = "btnUpdate";
+            this.btnUpdate.Size = new System.Drawing.Size(87, 37);
+            this.btnUpdate.TabIndex = 1;
+            this.btnUpdate.Text = "Update";
+            this.btnUpdate.UseVisualStyleBackColor = true;
+            this.btnUpdate.Click += new System.EventHandler(this.btnView_Click);
+            // 
+            // btnDel
+            // 
+            this.btnDel.Location = new System.Drawing.Point(414, 366);
+            this.btnDel.Name = "btnDel";
+            this.btnDel.Size = new System.Drawing.Size(87, 37);
+            this.btnDel.TabIndex = 1;
+            this.btnDel.Text = "Delete";
+            this.btnDel.UseVisualStyleBackColor = true;
+            this.btnDel.Click += new System.EventHandler(this.btnView_Click);
             // 
             // frmRecords
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.lblQuery);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtSearch);
+            this.Controls.Add(this.btnDel);
+            this.Controls.Add(this.btnUpdate);
+            this.Controls.Add(this.btnAdd);
             this.Controls.Add(this.btnView);
             this.Controls.Add(this.grdData);
             this.Name = "frmRecords";
@@ -108,7 +134,9 @@
         private System.Windows.Forms.Button btnView;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblQuery;
+        private System.Windows.Forms.Button btnAdd;
+        private System.Windows.Forms.Button btnUpdate;
+        private System.Windows.Forms.Button btnDel;
     }
 }
 
