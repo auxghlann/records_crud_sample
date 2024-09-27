@@ -25,7 +25,7 @@ namespace records_crud_sample
 
         public Database()
         {
-            _connection = new OdbcConnection(conn);
+            this._connection = new OdbcConnection(conn);
         }
 
         public OdbcConnection Connection

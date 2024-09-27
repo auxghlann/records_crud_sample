@@ -36,14 +36,20 @@ namespace records_crud_sample
             string query = "select * from records";
 
             //OleDbDataAdapter adapter = new OleDbDataAdapter(query, _db.Connection);
-            _db.Connection.Open();
-            OdbcDataAdapter adapter = new OdbcDataAdapter(query, _db.Connection);
+            if (_db.Connection.State != ConnectionState.Open)
+            {
+                _db.Connection.Open();
+            }
+            using (OdbcDataAdapter adapter = new OdbcDataAdapter(query, _db.Connection))
+            {
 
-            adapter.Fill(dt);
-            
+                adapter.Fill(dt);
+
+                _db.Connection.Close();
+
+            }
+
             grdData.DataSource = dt;
-
-            _db.Connection.Close();
 
         }
 
@@ -53,23 +59,28 @@ namespace records_crud_sample
 
             // Open connection here
 
-            using (_db.Connection)
+            if (_db.Connection.State != ConnectionState.Open)
             {
                 _db.Connection.Open();
+            }
 
-                string query = "select * from records where (first_name like ? or last_name like ?)";
+            string query = "select * from records where (first_name like ? or last_name like ?)";
 
-                OdbcCommand command = new OdbcCommand(query, _db.Connection);
+            using (OdbcCommand command = new OdbcCommand(query, _db.Connection))
+            {
+
                 command.Parameters.AddWithValue("?", txtSearch.Text + "%");
                 command.Parameters.AddWithValue("?", txtSearch.Text + "%");
                 //lblQuery.Text = command.CommandText;
 
-                
                 using (OdbcDataAdapter adapter = new OdbcDataAdapter(command)) // Use OdbcDataAdapter if Odbc driver
                 {
                     adapter.Fill(dt);
                 }
+
+                _db.Connection.Close();
             }
+ 
 
             grdData.DataSource = dt;
         }
