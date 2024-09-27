@@ -9,16 +9,29 @@ using System.Threading.Tasks;
 using System.Data.Odbc;
 namespace records_crud_sample
 {
-    internal class Database
+    public class Database
     {
 
 
-        //private OleDbConnection connection;
-        //private const string connStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:/User/khest/Documents/C#app_dev/records_crud_sample/db/records.mdb";
-        private const string conn = "Dsn=mdb_records_db";
+        ////private OleDbConnection connection;
+        ////private const string connStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:/User/khest/Documents/C#app_dev/records_crud_sample/db/records.mdb";
+        //private const string conn = "Dsn=mdb_records_db";
 
-        //public OleDbConnection Connection { get { return new OleDbConnection(conn); } }
-        public OdbcConnection Connection { get { return new OdbcConnection(conn); } }
+        ////public OleDbConnection Connection { get { return new OleDbConnection(conn); } }
+        //public OdbcConnection Connection { get { return new OdbcConnection(conn); } }
+
+        private const string conn = "Dsn=mdb_records_db";
+        private OdbcConnection _connection;
+
+        public Database()
+        {
+            _connection = new OdbcConnection(conn);
+        }
+
+        public OdbcConnection Connection
+        {
+            get { return _connection; }
+        }
 
 
     }
