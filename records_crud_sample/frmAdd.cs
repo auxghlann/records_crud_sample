@@ -44,9 +44,7 @@ namespace records_crud_sample
 
             //db.Connection.Close();
             // Add 1 to the count
-            return recordCount + 1;
-
-            
+            return recordCount;
 
         }
 
@@ -68,7 +66,7 @@ namespace records_crud_sample
             }
             using (OdbcCommand command = new OdbcCommand(query, _db.Connection))
             {
-                command.Parameters.AddWithValue("?", GetDatabaseLength(_db));
+                command.Parameters.AddWithValue("?", GetDatabaseLength(_db) + 1);
                 command.Parameters.AddWithValue("?", txtFname.Text);
                 command.Parameters.AddWithValue("?", txtLname.Text);
                 command.Parameters.AddWithValue("?", txtEmail.Text);
