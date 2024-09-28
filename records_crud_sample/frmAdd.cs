@@ -26,7 +26,7 @@ namespace records_crud_sample
 
         // Helper Functions
 
-        private int GetDatabaseLength(Database db)
+        private int GetLastValueInID(Database db)
         {
             if (db.Connection.State != ConnectionState.Open)
             {
@@ -34,12 +34,16 @@ namespace records_crud_sample
             }
 
             // Get the total number of records
-            string countQuery = "SELECT COUNT(*) FROM records";
-            int recordCount = 0;
+            string query = "SELECT MAX(id) FROM records";
+            int recordCount = -1;
 
-            using (OdbcCommand countCommand = new OdbcCommand(countQuery, db.Connection))
+            using (OdbcCommand countCommand = new OdbcCommand(query, db.Connection))
             {
-                recordCount = Convert.ToInt32(countCommand.ExecuteScalar());
+                object result = countCommand.ExecuteScalar();
+                if (result != null)
+                {
+                    recordCount = Convert.ToInt32(result);
+                }
             }
 
             //db.Connection.Close();
@@ -66,7 +70,7 @@ namespace records_crud_sample
             }
             using (OdbcCommand command = new OdbcCommand(query, _db.Connection))
             {
-                command.Parameters.AddWithValue("?", GetDatabaseLength(_db) + 1);
+                command.Parameters.AddWithValue("?", GetLastValueInID(_db) + 1);
                 command.Parameters.AddWithValue("?", txtFname.Text);
                 command.Parameters.AddWithValue("?", txtLname.Text);
                 command.Parameters.AddWithValue("?", txtEmail.Text);
@@ -75,7 +79,7 @@ namespace records_crud_sample
                 int res = command.ExecuteNonQuery();
                 if (res != 0)
                 {
-                    DialogResult dgRes = MessageBox.Show("Record Added Successfully", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    DialogResult dgRes = MessageBox.Show("Record Added Successfully. Please refresh your datagrid", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     if (dgRes.Equals(DialogResult.OK))
                     {
