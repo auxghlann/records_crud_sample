@@ -28,8 +28,8 @@ namespace records_crud_sample
 
 
         // Update value holder
-        private int updateID;
-        private string  updateFname, updateLname, updateEmail, updateGender;
+        private int selectedID;
+        private string  selectedFname, selectedLname, selectedEmail, selectedGender;
 
         // WinForm Functons
 
@@ -91,8 +91,50 @@ namespace records_crud_sample
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
-            frmUpdate = new frmUpdate(this.updateID, this.updateFname, this.updateLname, this.updateEmail, this.updateGender, _db);
+            frmUpdate = new frmUpdate(this.selectedID, this.selectedFname, this.selectedLname, this.selectedEmail, this.selectedGender, _db);
             frmUpdate.ShowDialog();
+        }
+
+        private void btnDel_Click(object sender, EventArgs e)
+        {
+
+            DialogResult dg = MessageBox.Show("Are you sure you want to delete the selected record?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            
+            if (dg == DialogResult.Yes)
+            {
+                string query = "DELETE from records where id=?";
+
+
+                if (_db.Connection.State != ConnectionState.Open)
+                {
+                    _db.Connection.Open();
+                }
+                using (OdbcCommand command = new OdbcCommand(query, _db.Connection))
+                {
+                    command.Parameters.AddWithValue("?", this.selectedID);
+
+                    int res = command.ExecuteNonQuery();
+                    if (res != 0)
+                    {
+                        DialogResult dgRes = MessageBox.Show("Record has been deleted successfully. Please refresh your datagrid", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        if (dgRes.Equals(DialogResult.OK))
+                        {
+                            _db.Connection.Close();
+                        }
+
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to delete the selected Record", "Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    }
+
+                    _db.Connection.Close();
+                }
+            
+            
+            }
         }
 
         private void btnAdd_Click(object sender, EventArgs e)
@@ -111,11 +153,12 @@ namespace records_crud_sample
                 if (selectedRow != null)
                 {
                     btnUpdate.Enabled = true;
-                    this.updateID = Convert.ToInt32(selectedRow["id"]);
-                    this.updateFname = selectedRow["first_name"].ToString();
-                    this.updateLname = selectedRow["last_name"].ToString();
-                    this.updateEmail = selectedRow["email"].ToString();
-                    this.updateGender = selectedRow["gender"].ToString();
+                    btnDel.Enabled = true;
+                    this.selectedID = Convert.ToInt32(selectedRow["id"]);
+                    this.selectedFname = selectedRow["first_name"].ToString();
+                    this.selectedLname = selectedRow["last_name"].ToString();
+                    this.selectedEmail = selectedRow["email"].ToString();
+                    this.selectedGender = selectedRow["gender"].ToString();
                 }
             }
         }
