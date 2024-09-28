@@ -24,8 +24,12 @@ namespace records_crud_sample
         // Initializion and Declaration
         Database _db = new Database();
         frmAdd frmAdd;
+        frmUpdate frmUpdate;
 
 
+        // Update value holder
+        private int updateID;
+        private string  updateFname, updateLname, updateEmail, updateGender;
 
         // WinForm Functons
 
@@ -85,10 +89,41 @@ namespace records_crud_sample
             grdData.DataSource = dt;
         }
 
+        private void btnUpdate_Click(object sender, EventArgs e)
+        {
+            frmUpdate = new frmUpdate(this.updateID, this.updateFname, this.updateLname, this.updateEmail, this.updateGender, _db);
+            frmUpdate.ShowDialog();
+        }
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
             frmAdd = new frmAdd(_db);
             frmAdd.ShowDialog();
+        }
+
+
+        private void grdData_SelectionChanged(object sender, EventArgs e)
+        {
+            if (grdData.SelectedRows.Count > 0) // Ensure there is a selected row
+            {
+                var selectedRow = grdData.SelectedRows[0].DataBoundItem as DataRowView;
+
+                if (selectedRow != null)
+                {
+                    btnUpdate.Enabled = true;
+                    this.updateID = Convert.ToInt32(selectedRow["id"]);
+                    this.updateFname = selectedRow["first_name"].ToString();
+                    this.updateLname = selectedRow["last_name"].ToString();
+                    this.updateEmail = selectedRow["email"].ToString();
+                    this.updateGender = selectedRow["gender"].ToString();
+                }
+            }
+        }
+
+        private void frmRecords_Load(object sender, EventArgs e)
+        {
+            btnUpdate.Enabled = false;
+            btnDel.Enabled = false;
         }
     }
 }
